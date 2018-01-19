@@ -84,23 +84,23 @@ export function getTitleGroup(model: Model, channel: HeaderChannel) {
   };
 }
 
-export function getLabelAlign(angle: number) {
-  angle %= 360;
-  if (angle > 270 || angle <= 45) {
+export function labelAlign(angle: number) {
+  angle = ((angle % 360) + 360) % 360;
+  if (270 < angle || angle <= 45) {
     return {align: {value: 'right'}};
-  } else if (angle >= 135 && angle < 225) {
+  } else if (135 <= angle && angle < 225) {
     return {align: {value: 'left'}};
   }
   return {};
 }
 
-export function getLabelBaseline(angle: number) {
-  angle %= 360;
-  if (angle <= 22.5 || angle >= 225 && angle < 270) {
+export function labelBaseline(angle: number) {
+  angle = ((angle % 360) + 360) % 360;
+  if (angle <= 22.5 || 225 <= angle && angle < 270) {
     return {baseline: {value: 'middle'}};
-  } else if (angle > 22.5 && angle <= 45 || angle > 135 && angle <= 180) {
+  } else if ((22.5 < angle && angle <= 45) || (135 < angle && angle <= 180)) {
     return {baseline: {value: 'top'}};
-  } else if (angle > 180 && angle <= 225 || angle >= 270) {
+  } else if ((180 < angle && angle <= 225) || 270 <= angle) {
     return {baseline: {value: 'bottom'}};
   }
   return {};
@@ -118,8 +118,8 @@ export function getHeaderGroup(model: Model, channel: HeaderChannel, headerType:
         ...(
           labelAngle !== undefined ? {angle: {value: labelAngle}} : {}
         ),
-        ...getLabelAlign(labelAngle),
-        ...getLabelBaseline(labelAngle)
+        ...labelAlign(labelAngle),
+        ...labelBaseline(labelAngle)
 
         // TODO(https://github.com/vega/vega-lite/issues/2446): apply label* (e.g, labelAlign, labelBaseline) here
       };
