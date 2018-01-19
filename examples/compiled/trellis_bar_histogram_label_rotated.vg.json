@@ -135,6 +135,12 @@
                     "update": {
                         "angle": {
                             "value": -90
+                        },
+                        "align": {
+                            "value": "right"
+                        },
+                        "baseline": {
+                            "value": "middle"
                         }
                     }
                 }
