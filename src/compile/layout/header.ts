@@ -85,8 +85,9 @@ export function getTitleGroup(model: Model, channel: HeaderChannel) {
 }
 
 export function labelAlign(angle: number) {
+  // to keep angle in [0, 360)
   angle = ((angle % 360) + 360) % 360;
-  if (270 < angle || angle <= 45) {
+  if (angle <= 45 || 270 < angle) {
     return {align: {value: 'right'}};
   } else if (135 <= angle && angle < 225) {
     return {align: {value: 'left'}};
@@ -95,8 +96,9 @@ export function labelAlign(angle: number) {
 }
 
 export function labelBaseline(angle: number) {
+  // to keep angle in [0, 360)
   angle = ((angle % 360) + 360) % 360;
-  if (angle <= 22.5 || 225 <= angle && angle < 270) {
+  if (angle <= 22.5 || (225 <= angle && angle < 270)) {
     return {baseline: {value: 'middle'}};
   } else if ((22.5 < angle && angle <= 45) || (135 < angle && angle <= 180)) {
     return {baseline: {value: 'top'}};
