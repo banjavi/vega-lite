@@ -84,6 +84,28 @@ export function getTitleGroup(model: Model, channel: HeaderChannel) {
   };
 }
 
+export function getLabelAlign(angle: number) {
+  angle %= 360;
+  if (angle > 270 || angle <= 45) {
+    return {align: {value: 'right'}};
+  } else if (angle >= 135 && angle < 225) {
+    return {align: {value: 'left'}};
+  }
+  return {};
+}
+
+export function getLabelBaseline(angle: number) {
+  angle %= 360;
+  if (angle <= 22.5 || angle >= 225 && angle < 270) {
+    return {baseline: {value: 'middle'}};
+  } else if (angle > 22.5 && angle <= 45 || angle > 135 && angle <= 180) {
+    return {baseline: {value: 'top'}};
+  } else if (angle > 180 && angle <= 225 || angle >= 270) {
+    return {baseline: {value: 'bottom'}};
+  }
+  return {};
+}
+
 export function getHeaderGroup(model: Model, channel: HeaderChannel, headerType: HeaderType, layoutHeader: LayoutHeaderComponent, headerCmpt: HeaderComponent) {
   if (headerCmpt) {
     let title = null;
@@ -95,7 +117,9 @@ export function getHeaderGroup(model: Model, channel: HeaderChannel, headerType:
       const update = {
         ...(
           labelAngle !== undefined ? {angle: {value: labelAngle}} : {}
-        )
+        ),
+        ...getLabelAlign(labelAngle),
+        ...getLabelBaseline(labelAngle)
 
         // TODO(https://github.com/vega/vega-lite/issues/2446): apply label* (e.g, labelAlign, labelBaseline) here
       };
